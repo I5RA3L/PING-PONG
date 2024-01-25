@@ -17,50 +17,93 @@
     <script>
         const canvasEl = document.querySelector("canvas"),
         canvasCtx = canvasEl.getContext("2d")
+        const gapX = 10
 
-        const lineWindt = 15
-     
+        //desenho do campo
+        const field = {
+            w: window.innerWidth,
+            h: window.innerHeight,
+            draw: function() {
+            canvasCtx.fillStyle = "#286047"
+            canvasCtx.fillRect(0, 0, this.w, this.h)
+            },
+        }
+
+        // desenho da linha central
+        const line = {
+            w: 15,
+            h: field.h,
+            draw: function() {
+            canvasCtx.fillStyle = "#ffff"
+            canvasCtx.fillRect( x = field.w / 2 - this.w / 2,y = 0,w = this.w, h = this.h)
+            },
+        }
+
+        //criar as raquetes
+        const leftPaddle = {
+            x: gapX,
+            y: 100,
+            w: line.w,
+            h: 200,
+            draw: function(){
+                canvasCtx.fillStyle = "#ffff"
+                canvasCtx.fillRect(this.x ,this.y , this.w, this.h)
+            },
+        }
+
+        const rightPaddle = {
+            x: field.w - line.w - gapX,
+            y: 100,
+            w: line.w,
+            h: 200,
+            draw: function(){
+                canvasCtx.fillStyle = "#ffff"
+                canvasCtx.fillRect(this.x ,this.y , this.w, this.h)
+            },
+        }
+
+        //criar placar
+        const score = {
+            human: 1,
+            Computer: 2,
+            draw: function() {
+                canvasCtx.font = "bold 75px Arial"
+                canvasCtx.textAlign = "center"
+                canvasCtx.textBaseline = "top"
+                canvasCtx.fillStyle = "#01341D"
+                canvasCtx.fillText(this.human, field.w / 4, 50)
+                canvasCtx.fillText(this.Computer, field.w / 4 + field.w / 2, 50)
+            },
+        }
+
+        //criando a bola
+        const ball = {
+            x: 300,
+            y: 300,
+            r: 20,
+            draw: function() {
+            canvasCtx.fillStyle = "#ffff"
+            canvasCtx.beginPath()
+            canvasCtx.arc(this.x, this.y, this.r, 0, 2 * Math.PI, false)
+            canvasCtx.fill()
+            },
+        }
+
         function setup() {
             canvasEl.width = canvasCtx.width = window.innerWidth
             canvasEl.height = canvasCtx.height = window.innerHeight
         }
 
         function draw() {
+            field.draw()
+            line.draw()
 
-               //desenho do campo
-            canvasCtx.fillStyle = "#286047"
-            canvasCtx.fillRect(0, 0, window.innerWidth, window.innerHeight)
+            leftPaddle.draw()
+            rightPaddle.draw()
 
-                // desenho da linha central
-            canvasCtx.fillStyle = "#ffff"
-            canvasCtx.fillRect(
-                x = window.innerWidth / 2 - lineWindt / 2,
-                y = 0,
-                w = lineWindt,
-                h = window.innerHeight
-            )
-            
-            //criar as raquetes
-            canvasCtx.fillRect(10, 200, lineWindt, 200)
-            //raquete esquerda
-            canvasCtx.fillRect(window.innerWidth - lineWindt - 10,
-                200, 
-                lineWindt, 
-                200
-            )
+            score.draw()
 
-            //criando a bola
-            canvasCtx.beginPath()
-            canvasCtx.arc(200, 300, 20, 0, 2 * Math.PI, false)
-            canvasCtx.fill()
-            
-            //criar placar
-            canvasCtx.font = "bold 75px Arial"
-            canvasCtx.textAlign = "center"
-            canvasCtx.textBaseline = "top"
-            canvasCtx.fillStyle = "#01341D"
-            canvasCtx.fillText("3", window.innerWidth / 4, 50)
-            canvasCtx.fillText("2", window.innerWidth / 4 + window.innerWidth / 2, 50)
+            ball.draw()
         }
         setup()
         draw()
