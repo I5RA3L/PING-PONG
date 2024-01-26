@@ -76,19 +76,8 @@
             },
         }
 
-        //criando a bola
-        const ball = {
-            x: 300,
-            y: 300,
-            r: 20,
-            draw: function() {
-            canvasCtx.fillStyle = "#ffff"
-            canvasCtx.beginPath()
-            canvasCtx.arc(this.x, this.y, this.r, 0, 2 * Math.PI, false)
-            canvasCtx.fill()
-            },
-        }
 
+        
         function setup() {
             canvasEl.width = canvasCtx.width = window.innerWidth
             canvasEl.height = canvasCtx.height = window.innerHeight
