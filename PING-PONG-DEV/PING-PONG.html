@@ -62,6 +62,26 @@
             },
         }
 
+        //criando a bola
+        const ball = {
+            x: 300,
+            y: 300,
+            r: 20,
+            speed: 10,
+            _move: function() {
+                this.y +=1 * this.speed
+                this.x +=1 * this.speed
+            },
+            draw: function() {
+                canvasCtx.fillStyle = "#ffff"
+                canvasCtx.beginPath()
+                canvasCtx.arc(this.x, this.y, this.r, 0, 2 * Math.PI, false)
+                canvasCtx.fill()
+
+                this._move()
+            },
+        }
+
         //criar placar
         const score = {
             human: 1,
@@ -77,7 +97,7 @@
         }
 
 
-        
+
         function setup() {
             canvasEl.width = canvasCtx.width = window.innerWidth
             canvasEl.height = canvasCtx.height = window.innerHeight
@@ -90,12 +110,31 @@
             leftPaddle.draw()
             rightPaddle.draw()
 
-            score.draw()
-
             ball.draw()
+
+            score.draw() 
         }
-        setup()
+
+        window.animateFrame = (function () {
+        return (
+          window.requestAnimationFrame ||
+          window.webkitRequestAnimationFrame ||
+          window.mozRequestAnimationFrame ||
+          window.oRequestAnimationFrame ||
+          window.msRequestAnimationFrame ||
+          function (callback) {
+            return window.setTimeout(callback, 1000 / 60)
+          }
+        )
+      })()
+
+      function main() {
+        animateFrame(main)
         draw()
+      }
+
+      setup()
+      main()
     </script>
     
 </body>
